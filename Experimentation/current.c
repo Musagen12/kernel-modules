@@ -1,11 +1,17 @@
 #include <linux/module.h>
 #include <linux/init.h>
 #include <linux/sched.h>
+#include <linux/maple_tree.h>
 
 static int __init custom_entry(void) {
 	struct task_struct *task = current;
+	struct maple_tree tree = current->mm->mm_mt;
 
 	printk(KERN_INFO "Current process: %s [%d].\n", task->comm, task->pid);
+	printk(KERN_INFO "Size of vm_space: %ld. \n", task->mm->task_size);
+	
+	printk(KERN_INFO "Process %s maple tree flags %d.\n", task->comm, tree.ma_flags);
+
 	printk(KERN_INFO "The most recently used cpu: %d.\n", task->recent_used_cpu);
 	printk(KERN_INFO "The number of vmas: %d", task->mm->map_count);
 	printk(KERN_INFO "Linux entry.");
@@ -14,7 +20,7 @@ static int __init custom_entry(void) {
 }
 
 static void __exit custom_exit(void) {
-	printk(KERN_INFO "Exitting the kernel module.");
+	printk(KERN_INFO "Exiting the kernel module.");
 }
 
 module_init(custom_entry);

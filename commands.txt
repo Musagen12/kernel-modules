@@ -13,7 +13,7 @@ qemu-system-x86_64 \
 
 Copying files into a qemu vm
 -----------------------------
-scp -P 2222 driver.ko root@localhost:/root/
+scp -P 2222 current.ko root@localhost:/root/kernel-modules
 
 SSH connection into the vm
 ---------------------------

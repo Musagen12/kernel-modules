@@ -1,4 +1,4 @@
-obj-m += current.o
+obj-m += initial.o
 
 KDIR := /home/colonel/kernel-test-bed/linux-6.19
 

@@ -16,7 +16,10 @@ static void __exit hello_exit(void) {
 	printk(KERN_INFO "Goodbye world.");
 }
 
-// "hello_entry()" is registered as the module's entry
+// "hello_entry()" is registered as the module's entry point
+// Can be used to allocate resources
 module_init(hello_entry);
-// "hello_exit()" is registered as the module's exit
+// "hello_exit()" is registered as the module's exit point
+// Invoked when removed from memory
+// Can be used to free resources
 module_exit(hello_exit);

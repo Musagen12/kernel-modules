@@ -3,10 +3,6 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Musagen12");
-MODULE_DESCRIPTION("A hello world module");
-
 static int __init hello_entry(void) {
 	printk(KERN_INFO "Hello world.");
 	return 0;
@@ -23,3 +19,7 @@ module_init(hello_entry);
 // Invoked when removed from memory
 // Can be used to free resources
 module_exit(hello_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Musagen12");
+MODULE_DESCRIPTION("A hello world module");

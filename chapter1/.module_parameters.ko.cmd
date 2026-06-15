@@ -1,1 +1,0 @@
-savedcmd_module_parameters.ko := ld -r -m elf_x86_64 --fatal-warnings -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T /home/colonel/kernel-test-bed/linux-6.19/scripts/module.lds -o module_parameters.ko module_parameters.o module_parameters.mod.o .module-common.o

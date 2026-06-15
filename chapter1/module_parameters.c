@@ -10,7 +10,7 @@ static int age = 0;
 module_param(age, int, S_IRUGO);
 
 static int __init print_age(void) {
-	printk(KERN_ALERT "The age is %c.", age);
+	printk(KERN_ALERT "The age is %d.", age);
 	return 0;
 }
 

@@ -3,16 +3,19 @@
 #include <linux/module.h>
 #include <linux/kobject.h>
 
-static struct kobject *kobj;
-static char name[5] = "test";
+static struct kobject *obj;
 
-static struct kobject *kobj2;
-static char name2[5] = "test2";
+// Array size isn't defined(Kinda dangerous in the kernel without initialization) but the array is initialized
+static struct kobject *kobj;
+static char name[] = "Simba";
+
+static struct kobject *kobj1;
+static char name2[] = "Kion";
 
 static struct kobject * create_kobject(char *name, struct kobject *parent) {
-	kobj = kobject_create_and_add(name, kobj);
+	obj = kobject_create_and_add(name, parent);
 
-	return kobj;
+	return obj;
 }
 
 static int __init kobjects(void) {
@@ -21,14 +24,16 @@ static int __init kobjects(void) {
 	if(!kobj)
 		return -ENOMEM;
 
-	printk(KERN_INFO "Created kernel object 1.");
+	printk(KERN_INFO "Created kernel object %s.", kobj->name);
 
-	kobj2 = create_kobject(name2, kobj2);
+	kobj1 = create_kobject(name2, kobj);
 
-	if(!kobj2)
+	if(!kobj1)
 		return -ENOMEM;
 
-	printk(KERN_INFO "Created kernel object 2.");
+	printk(KERN_INFO "Created kernel object %s.", kobj1->name);
+
+	printk(KERN_INFO "Kernel object %s is the child of object %s.", kobj1->name, kobj1->parent->name);
 
 	return 0;
 }

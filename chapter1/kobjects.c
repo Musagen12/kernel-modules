@@ -7,10 +7,10 @@ static struct kobject *obj;
 
 // Array size isn't defined(Kinda dangerous in the kernel without initialization) but the array is initialized
 static struct kobject *kobj;
-static char name[] = "Simba";
+static char name[] = "charles";
 
 static struct kobject *kobj1;
-static char name2[] = "Kion";
+static char name2[] = "harry";
 
 static struct kobject * create_kobject(char *name, struct kobject *parent) {
 	obj = kobject_create_and_add(name, parent);
@@ -25,6 +25,7 @@ static int __init kobjects(void) {
 		return -ENOMEM;
 
 	printk(KERN_INFO "Created kernel object %s.", kobj->name);
+	printk(KERN_INFO "kobject %s has a kref of %d.", kobj->name, kobj->kref.refcount.refs.counter);
 
 	kobj1 = create_kobject(name2, kobj);
 
@@ -32,13 +33,16 @@ static int __init kobjects(void) {
 		return -ENOMEM;
 
 	printk(KERN_INFO "Created kernel object %s.", kobj1->name);
-
 	printk(KERN_INFO "Kernel object %s is the child of object %s.", kobj1->name, kobj1->parent->name);
+	printk(KERN_INFO "kobject %s has a kref of %d.", kobj1->name, kobj1->kref.refcount.refs.counter);
 
 	return 0;
 }
 
 static void __exit cleanup(void) {
+	// Reduces the reference count by 1. If it reaches 0 cleanup is done
+	kobject_put(kobj);
+	kobject_put(kobj1);
 	printk(KERN_INFO "Goodbye!!");
 }
 

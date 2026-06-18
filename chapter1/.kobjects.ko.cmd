@@ -1,0 +1,1 @@
+savedcmd_kobjects.ko := ld -r -m elf_x86_64 --fatal-warnings -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T /home/colonel/kernel-test-bed/linux-6.19/scripts/module.lds -o kobjects.ko kobjects.o kobjects.mod.o .module-common.o

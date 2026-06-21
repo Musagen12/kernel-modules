@@ -21,6 +21,7 @@ static struct kobject * create_kobject(char *name, struct kobject *parent) {
 static int __init kobjects(void) {
 	kobj = create_kobject(name, NULL);
 
+	// If NULL return the ENOMEM error since its probably OOM
 	if(!kobj)
 		return -ENOMEM;
 

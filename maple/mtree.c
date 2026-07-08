@@ -4,10 +4,10 @@
 #include <linux/maple_tree.h>
 #include <linux/rcupdate.h>
 
-void * root;
-
 static int __init create_tree(void) {
 	printk(KERN_INFO "Hello kernel.");
+
+	// Allocating the memory
 	struct maple_tree *tree = kmalloc(sizeof(tree), GFP_NOWAIT);
 
 	// Always check if memory allocation failed otherwise you will run into a NULL pointer
@@ -17,8 +17,11 @@ static int __init create_tree(void) {
 		return -ENOMEM;
 	}
 
+	// Initialize the maple tree using previously allocated memory
 	mt_init(tree);
-	root = rcu_dereference(tree->ma_root);
+	// The tree is in RCU mode hence we need to dereference it carefully
+	void * root = rcu_dereference(tree->ma_root);
+
 	printk(KERN_INFO "The root pointer is %p.", &root);
 
 	return 0;

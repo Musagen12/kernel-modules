@@ -22,7 +22,8 @@ static int __init create_tree(void) {
 	// The tree is in RCU mode hence we need to dereference it carefully
 	void * root = rcu_dereference(tree->ma_root);
 
-	printk(KERN_INFO "The root pointer is %p.", &root);
+	printk(KERN_INFO "The root pointer address is %p.", &root);
+	printk(KERN_INFO "The root pointer is %p.", root);
 
 	return 0;
 }

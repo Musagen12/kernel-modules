@@ -4,16 +4,19 @@
 #include <linux/maple_tree.h>
 #include <linux/rcupdate.h>
 
+struct maple_tree *tree;
+
 static int __init create_tree(void) {
 	printk(KERN_INFO "Hello kernel.");
 
 	// Allocating the memory
-	struct maple_tree *tree = kmalloc(sizeof(tree), GFP_NOWAIT);
+	tree = kmalloc(sizeof(tree), GFP_NOWAIT);
 
 	// Always check if memory allocation failed otherwise you will run into a NULL pointer
-	//  dereference since you will be accessing memory(ie using a pointer) that doesn't exist
+	// dereference since you will be accessing memory(ie using a pointer) that doesn't exist
+	// When this happens the OS crashes
 	if (!tree) {
-		printk(KERN_INFO "Memory allocation failed");
+		printk(KERN_ALERT "Memory allocation failed");
 		return -ENOMEM;
 	}
 
@@ -29,6 +32,8 @@ static int __init create_tree(void) {
 }
 
 static void __exit cleanup(void) {
+	printk(KERN_INFO "Freeing used memory.");
+	kfree(tree);
 	printk(KERN_INFO "Goodbye kernel.");
 }
 

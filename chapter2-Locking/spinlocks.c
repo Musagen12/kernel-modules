@@ -8,7 +8,7 @@
 #include <linux/spinlock.h>
 
 // No sleeping whilst using a spinlock. If it happens the error "BUG: scheduling while atomic" appears
-// No need to use the keyword 'volatile'
+// No need to use the keyword 'volatile' for the global variable i since its protected by a spinlock
 
 DEFINE_SPINLOCK(lock);
 static struct task_struct *kthread1;
@@ -23,6 +23,10 @@ static int increament(void *ptr) {
 		spin_lock(&lock);
 		pr_info("Thread number %d increamented to %d.", num, ++i);
 		spin_unlock(&lock);
+
+		// The sleep occurs outside the protected area so its okay
+		// This is meant to slow down the operation
+		msleep(1000 * num);
 	}
 
 	return 0;

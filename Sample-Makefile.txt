@@ -1,4 +1,4 @@
-obj-m += test.o
+obj-m += {filename}.o
 
 KDIR := /home/colonel/kernel-test-bed/linux-6.19
 

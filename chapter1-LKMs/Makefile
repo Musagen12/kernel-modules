@@ -3,7 +3,8 @@
 # obj-m += assignment1.o
 # obj-m += assignment2.o
 # obj-m += test.o
-obj-m += kobjects.o
+#obj-m += kobjects.o
+obj-m += oops.o
 
 KDIR := /home/colonel/kernel-test-bed/linux-6.19
 

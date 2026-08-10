@@ -11,9 +11,17 @@ qemu-system-x86_64 \
   -serial mon:stdio
 
 
+Internet setup
+--------------
+ip link set enp0s3 up
+ip addr add 10.0.2.15/24 dev enp0s3
+ip route add default via 10.0.2.2
+
+
 Copying files into a qemu vm
 -----------------------------
-scp -P 2222 current.ko root@localhost:/root/kernel-modules
+scp -P 2222 kthreads.ko root@localhost:/root/kernel-modules
+
 
 SSH connection into the vm
 ---------------------------

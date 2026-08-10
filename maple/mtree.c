@@ -13,7 +13,8 @@ static int __init create_tree(void) {
 	printk(KERN_INFO "Welcome to maple tree hacking.");
 
 	// Allocating the memory
-	tree = kmalloc(sizeof(tree), GFP_NOWAIT);
+	// Used the sizeof a maple tree struct not the pointer
+	tree = kmalloc(sizeof(struct maple_tree), GFP_NOWAIT);
 
 	// Always check if memory allocation failed otherwise you will run into a NULL pointer
 	// dereference since you will be accessing memory(ie using a pointer) that doesn't exist

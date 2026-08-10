@@ -1,5 +1,4 @@
-# obj-m += driver.o
-obj-m += current.o
+obj-m += test.o
 
 KDIR := /home/colonel/kernel-test-bed/linux-6.19
 

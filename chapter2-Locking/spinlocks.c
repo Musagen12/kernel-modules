@@ -7,13 +7,14 @@
 #include <linux/err.h>
 #include <linux/spinlock.h>
 
-// No sleeping whilst using a spinlock
+// No sleeping whilst using a spinlock. If it happens the error "BUG: scheduling while atomic" appears
+// No need to use the keyword 'volatile'
 
 DEFINE_SPINLOCK(lock);
 static struct task_struct *kthread1;
 static struct task_struct *kthread2;
 static int t1 = 1, t2 = 2;
-static volatile int i = 0;
+static int i = 0;
 
 static int increament(void *ptr) {
 	int num = *(int *)ptr;
@@ -21,7 +22,6 @@ static int increament(void *ptr) {
 	while(!kthread_should_stop()) {
 		spin_lock(&lock);
 		pr_info("Thread number %d increamented to %d.", num, ++i);
-		// msleep(1000 * num);
 		spin_unlock(&lock);
 	}
 

@@ -68,4 +68,4 @@ module_exit(kthreads_exit);
 
 MODULE_AUTHOR("Musagen12");
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Creating kernel threads.");
+MODULE_DESCRIPTION("Creating a race condition.");

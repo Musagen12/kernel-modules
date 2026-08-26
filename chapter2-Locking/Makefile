@@ -3,7 +3,8 @@
 # obj-m += atomic_variables.o
 # obj-m += spinlocks.o
 # obj-m += semaphores.o
-obj-m += rw_semaphores.o
+# obj-m += rw_semaphores.o
+obj-m += mutex.o
 
 KDIR := /home/colonel/kernel-test-bed/linux-6.19
 

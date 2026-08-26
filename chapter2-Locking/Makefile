@@ -2,6 +2,7 @@
 # obj-m += race_condition.o
 # obj-m += atomic_variables.o
 obj-m += spinlocks.o
+# obj-m += semaphores.o
 
 KDIR := /home/colonel/kernel-test-bed/linux-6.19
 

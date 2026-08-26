@@ -5,35 +5,47 @@
 #include <linux/sched.h>
 #include <linux/delay.h>
 #include <linux/err.h>
-#include <linux/spinlock.h>
+#include <linux/semaphore.h>
 
-// No sleeping whilst using a spinlock. If it happens the error "BUG: scheduling while atomic" appears
-// No need to use the keyword 'volatile' for the global variable i since its protected by a spinlock
-
-DEFINE_SPINLOCK(lock);
 static struct task_struct *kthread1;
 static struct task_struct *kthread2;
+
+// Semaphore declaration
+struct semaphore sem;
+
 static int t1 = 1, t2 = 2;
-static int i = 0;
+static volatile int i = 0;
 
 static int increament(void *ptr) {
 	int num = *(int *)ptr;
 
 	while(!kthread_should_stop()) {
-		spin_lock(&lock);
-		pr_info("Thread number %d increamented to %d.", num, ++i);
-		spin_unlock(&lock);
+		if(down_interruptible(&sem)) {
 
-		// The sleep occurs outside the protected area so its okay
-		// This is meant to slow down the operation
-		msleep(1000);
+		}
+
+		// down(&sem);
+
+		// Critical section
+		pr_info("Thread number %d increamented to %d.", num, ++i);
+		msleep(10000); // You can sleep in semaphores
+
+		up(&sem);
 	}
 
 	return 0;
 }
 
+/**
+ * @brief: The two kernel threads update the global variable i simultaneously 
+ * 		   resulting in a race condition 
+ * */
+
 static int __init kthreads_init(void) {
 	pr_info("playing around with kthreads.");
+
+	pr_info("Semaphore instantiated");
+	sema_init(&sem, 1);
 
 	kthread1 = kthread_create(increament, &t1, "superman");
 	pr_info("Creating kernel thread %d.", t1);
@@ -73,4 +85,4 @@ module_exit(kthreads_exit);
 
 MODULE_AUTHOR("Musagen12");
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Spinlock demonstration");
+MODULE_DESCRIPTION("Using semaphores to fix race conditions.");

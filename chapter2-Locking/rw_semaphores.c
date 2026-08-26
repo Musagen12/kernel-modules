@@ -85,4 +85,4 @@ module_exit(kthreads_exit);
 
 MODULE_AUTHOR("Musagen12");
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Using semaphores to fix race conditions.");
+MODULE_DESCRIPTION("Using rw-semaphores to fix race conditions.");
